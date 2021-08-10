@@ -21,7 +21,7 @@ namespace StackExchange.Redis.Tests.CommandRetry
             ConfigurationOptions configClient = new ConfigurationOptions();
             configClient.EndPoints.Add("127.0.0.1");
             configAdmin.AbortOnConnectFail = false;
-            configClient.RetryCommandsOnReconnect = retryPolicySet ? RetryOnReconnect.Always : null;
+            configClient.CommandRetryPolicy = retryPolicySet ? new CommandRetryPolicy().AlwaysRetryOnConnectionException() : null;
 
             using (var adminMuxer = ConnectionMultiplexer.Connect(configAdmin))
             using (var clientmuxer = ConnectionMultiplexer.Connect(configClient))

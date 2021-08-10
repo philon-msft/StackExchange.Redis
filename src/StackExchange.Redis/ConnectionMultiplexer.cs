@@ -2810,9 +2810,9 @@ namespace StackExchange.Redis
             }
 
             bool shouldRetry = false;
-            if (RawConfig.RetryCommandsOnReconnect != null && ex is RedisConnectionException)
+            if (RawConfig.CommandRetryPolicy != null && ex is RedisConnectionException)
             {
-                shouldRetry = message.IsInternalCall || RawConfig.RetryCommandsOnReconnect.ShouldRetry(message.Status);
+                shouldRetry = message.IsInternalCall || RawConfig.CommandRetryPolicy.ShouldRetryOnConnectionException(message.Status);
             }
 
             if (shouldRetry && RetryQueueManager.TryHandleFailedCommand(message))
