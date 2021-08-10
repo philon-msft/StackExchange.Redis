@@ -18,7 +18,6 @@ namespace StackExchange.Redis
     /// N: no specific flag set
     /// </summary>
     [Flags]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "Compatibility")]
     public enum ClientFlags : long
     {
         /// <summary>
@@ -28,19 +27,7 @@ namespace StackExchange.Redis
         /// <summary>
         /// the client is a replica in MONITOR mode
         /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(ReplicaMonitor) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        SlaveMonitor = 1,
-        /// <summary>
-        /// the client is a replica in MONITOR mode
-        /// </summary>
         ReplicaMonitor = 1, // as an implementation detail, note that enum.ToString on [Flags] prefers *later* options when naming Flags
-        /// <summary>
-        /// the client is a normal replica server
-        /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(Replica) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        Slave = 2,
         /// <summary>
         /// the client is a normal replica server
         /// </summary>

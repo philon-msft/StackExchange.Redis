@@ -357,12 +357,6 @@ namespace StackExchange.Redis
         /// <summary>
         /// Gets whether this node is a replica
         /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(IsReplica) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsSlave => IsReplica;
-        /// <summary>
-        /// Gets whether this node is a replica
-        /// </summary>
         public bool IsReplica { get; }
 
         /// <summary>

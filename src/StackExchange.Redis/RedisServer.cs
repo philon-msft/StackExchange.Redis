@@ -33,14 +33,8 @@ namespace StackExchange.Redis
 
         public bool IsConnected => server.IsConnected;
 
-        bool IServer.IsSlave => IsReplica;
         public bool IsReplica => server.IsReplica;
 
-        bool IServer.AllowSlaveWrites
-        {
-            get => AllowReplicaWrites;
-            set => AllowReplicaWrites = value;
-        }
         public bool AllowReplicaWrites
         {
             get => server.AllowReplicaWrites;
@@ -606,8 +600,6 @@ namespace StackExchange.Redis
             return server.GetFeatures();
         }
 
-        void IServer.SlaveOf(EndPoint master, CommandFlags flags) => ReplicaOf(master, flags);
-
         public void ReplicaOf(EndPoint master, CommandFlags flags = CommandFlags.None)
         {
             if (master == server.EndPoint)
@@ -643,8 +635,6 @@ namespace StackExchange.Redis
 #pragma warning restore CS0618
             }
         }
-
-        Task IServer.SlaveOfAsync(EndPoint master, CommandFlags flags) => ReplicaOfAsync(master, flags);
 
         public Task ReplicaOfAsync(EndPoint master, CommandFlags flags = CommandFlags.None)
         {
@@ -869,20 +859,12 @@ namespace StackExchange.Redis
             return ExecuteAsync(msg, ResultProcessor.SentinelArrayOfArrays);
         }
 
-        // For previous compat only
-        KeyValuePair<string, string>[][] IServer.SentinelSlaves(string serviceName, CommandFlags flags)
-            => SentinelReplicas(serviceName, flags);
-
         public KeyValuePair<string, string>[][] SentinelReplicas(string serviceName, CommandFlags flags = CommandFlags.None)
         {
             // note: sentinel does not have "replicas" terminology at the current time
             var msg = Message.Create(-1, flags, RedisCommand.SENTINEL, RedisLiterals.SLAVES, (RedisValue)serviceName);
             return ExecuteSync(msg, ResultProcessor.SentinelArrayOfArrays);
         }
-
-        // For previous compat only
-        Task<KeyValuePair<string, string>[][]> IServer.SentinelSlavesAsync(string serviceName, CommandFlags flags)
-            => SentinelReplicasAsync(serviceName, flags);
 
         public Task<KeyValuePair<string, string>[][]> SentinelReplicasAsync(string serviceName, CommandFlags flags = CommandFlags.None)
         {

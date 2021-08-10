@@ -36,21 +36,7 @@ namespace StackExchange.Redis
         /// <summary>
         /// Gets whether the connected server is a replica
         /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(IsReplica) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        bool IsSlave { get; }
-
-        /// <summary>
-        /// Gets whether the connected server is a replica
-        /// </summary>
         bool IsReplica { get; }
-
-        /// <summary>
-        /// Explicitly opt in for replica writes on writable replica
-        /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(AllowReplicaWrites) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        bool AllowSlaveWrites { get; set; }
 
         /// <summary>
         /// Explicitly opt in for replica writes on writable replica
@@ -540,27 +526,7 @@ namespace StackExchange.Redis
         /// <param name="master">Endpoint of the new master to replicate from.</param>
         /// <param name="flags">The command flags to use.</param>
         /// <remarks>https://redis.io/commands/replicaof</remarks>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(ReplicaOf) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        void SlaveOf(EndPoint master, CommandFlags flags = CommandFlags.None);
-
-        /// <summary>
-        /// The REPLICAOF command can change the replication settings of a replica on the fly. If a Redis server is already acting as replica, specifying a null master will turn off the replication, turning the Redis server into a MASTER. Specifying a non-null master will make the server a replica of another server listening at the specified hostname and port.
-        /// </summary>
-        /// <param name="master">Endpoint of the new master to replicate from.</param>
-        /// <param name="flags">The command flags to use.</param>
-        /// <remarks>https://redis.io/commands/replicaof</remarks>
         void ReplicaOf(EndPoint master, CommandFlags flags = CommandFlags.None);
-
-        /// <summary>
-        /// The REPLICAOF command can change the replication settings of a replica on the fly. If a Redis server is already acting as replica, specifying a null master will turn off the replication, turning the Redis server into a MASTER. Specifying a non-null master will make the server a replica of another server listening at the specified hostname and port.
-        /// </summary>
-        /// <param name="master">Endpoint of the new master to replicate from.</param>
-        /// <param name="flags">The command flags to use.</param>
-        /// <remarks>https://redis.io/commands/replicaof</remarks>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(ReplicaOfAsync) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        Task SlaveOfAsync(EndPoint master, CommandFlags flags = CommandFlags.None);
 
         /// <summary>
         /// The REPLICAOF command can change the replication settings of a replica on the fly. If a Redis server is already acting as replica, specifying a null master will turn off the replication, turning the Redis server into a MASTER. Specifying a non-null master will make the server a replica of another server listening at the specified hostname and port.
@@ -877,29 +843,7 @@ namespace StackExchange.Redis
         /// <param name="flags">The command flags to use.</param>
         /// <returns>an array of replica state KeyValuePair arrays</returns>
         /// <remarks>https://redis.io/topics/sentinel</remarks>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(SentinelReplicas) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        KeyValuePair<string, string>[][] SentinelSlaves(string serviceName, CommandFlags flags = CommandFlags.None);
-
-        /// <summary>
-        /// Show a list of replicas for this master, and their state.
-        /// </summary>
-        /// <param name="serviceName">The sentinel service name.</param>
-        /// <param name="flags">The command flags to use.</param>
-        /// <returns>an array of replica state KeyValuePair arrays</returns>
-        /// <remarks>https://redis.io/topics/sentinel</remarks>
         KeyValuePair<string, string>[][] SentinelReplicas(string serviceName, CommandFlags flags = CommandFlags.None);
-
-        /// <summary>
-        /// Show a list of replicas for this master, and their state.
-        /// </summary>
-        /// <param name="serviceName">The sentinel service name.</param>
-        /// <param name="flags">The command flags to use.</param>
-        /// <returns>an array of replica state KeyValuePair arrays</returns>
-        /// <remarks>https://redis.io/topics/sentinel</remarks>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(SentinelReplicasAsync) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        Task<KeyValuePair<string, string>[][]> SentinelSlavesAsync(string serviceName, CommandFlags flags = CommandFlags.None);
 
         /// <summary>
         /// Show a list of replicas for this master, and their state.

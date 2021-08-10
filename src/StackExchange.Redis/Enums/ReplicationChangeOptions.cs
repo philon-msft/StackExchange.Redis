@@ -7,7 +7,6 @@ namespace StackExchange.Redis
     /// Additional operations to perform when making a server a master
     /// </summary>
     [Flags]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "Compatibility")]
     public enum ReplicationChangeOptions
     {
         /// <summary>
@@ -22,12 +21,6 @@ namespace StackExchange.Redis
         /// Broadcast to the pub-sub channel to listening clients to reconfigure themselves
         /// </summary>
         Broadcast = 2,
-        /// <summary>
-        /// Issue a REPLICAOF to all other known nodes, making this this master of all
-        /// </summary>
-        [Obsolete("Starting with Redis version 5, Redis has moved to 'replica' terminology. Please use " + nameof(ReplicateToOtherEndpoints) + " instead.")]
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        EnslaveSubordinates = 4,
         /// <summary>
         /// Issue a REPLICAOF to all other known nodes, making this this master of all
         /// </summary>
