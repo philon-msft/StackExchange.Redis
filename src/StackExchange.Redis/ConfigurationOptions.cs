@@ -106,8 +106,8 @@ namespace StackExchange.Redis
                 Version = "version",
                 WriteBuffer = "writeBuffer",
                 CheckCertificateRevocation = "checkCertificateRevocation",
-                CommandRetryPolicy = "CommandRetryPolicy",
-                RetryQueueLength = "RetryQueueLength";
+                CommandRetryPolicy = "commandRetryPolicy",
+                RetryQueueMaxLength = "retryQueueMaxLength";
 
 
             private static readonly Dictionary<string, string> normalizedOptions = new[]
@@ -139,7 +139,7 @@ namespace StackExchange.Redis
                 WriteBuffer,
                 CheckCertificateRevocation,
                 CommandRetryPolicy,
-                RetryQueueLength,
+                RetryQueueMaxLength,
             }.ToDictionary(x => x, StringComparer.OrdinalIgnoreCase);
 
             public static string TryNormalize(string value)
@@ -160,7 +160,7 @@ namespace StackExchange.Redis
 
         private Version defaultVersion;
 
-        private int? keepAlive, asyncTimeout, syncTimeout, connectTimeout, responseTimeout, writeBuffer, connectRetry, configCheckSeconds, retryQueueLength;
+        private int? keepAlive, asyncTimeout, syncTimeout, connectTimeout, responseTimeout, writeBuffer, connectRetry, configCheckSeconds, retryQueueMaxLength;
 
         private Proxy? proxy;
 
@@ -426,9 +426,9 @@ namespace StackExchange.Redis
         public int ConfigCheckSeconds { get { return configCheckSeconds.GetValueOrDefault(60); } set { configCheckSeconds = value; } }
 
         /// <summary>
-        /// If retry policy is specified, Retry Queue max length, by default there's no queue limit 
+        /// Maximum length of the retry queue (defaults to 100,000)
         /// </summary>
-        public int? RetryQueueMaxLength { get; set; }
+        public int? RetryQueueMaxLength { get { return retryQueueMaxLength.GetValueOrDefault(100000); } set { retryQueueMaxLength = value; } }
 
         /// <summary>
         /// Parse the configuration from a comma-delimited configuration string
@@ -582,7 +582,7 @@ namespace StackExchange.Redis
             Append(sb, OptionKeys.ResponseTimeout, responseTimeout);
             Append(sb, OptionKeys.DefaultDatabase, DefaultDatabase);
             Append(sb, OptionKeys.CommandRetryPolicy, CommandRetryPolicy);
-            Append(sb, OptionKeys.RetryQueueLength, retryQueueLength);
+            Append(sb, OptionKeys.RetryQueueMaxLength, retryQueueMaxLength);
             commandMap?.AppendDeltas(sb);
             return sb.ToString();
         }
@@ -660,7 +660,7 @@ namespace StackExchange.Redis
         private void Clear()
         {
             ClientName = ServiceName = User = Password = tieBreaker = sslHost = configChannel = null;
-            keepAlive = syncTimeout = asyncTimeout = connectTimeout = writeBuffer = connectRetry = configCheckSeconds = DefaultDatabase = retryQueueLength = null;
+            keepAlive = syncTimeout = asyncTimeout = connectTimeout = writeBuffer = connectRetry = configCheckSeconds = DefaultDatabase = retryQueueMaxLength = null;
             allowAdmin = abortOnConnectFail = highPrioritySocketThreads = resolveDns = ssl = null;
             SslProtocols = null;
             defaultVersion = null;
@@ -795,7 +795,7 @@ namespace StackExchange.Redis
                         case OptionKeys.CommandRetryPolicy:
                             CommandRetryPolicy = OptionKeys.ParseCommandRetryPolicy(key, value);
                             break;
-                        case OptionKeys.RetryQueueLength:
+                        case OptionKeys.RetryQueueMaxLength:
                             RetryQueueMaxLength = OptionKeys.ParseInt32(key, value, minValue: 0);
                             break;
                         default:

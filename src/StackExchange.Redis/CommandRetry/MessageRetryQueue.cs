@@ -20,7 +20,7 @@ namespace StackExchange.Redis
             _messageRetryHelper = messageRetryHelper;
         }
 
-        public int RetryQueueLength => _queue.Count;
+        public int CurrentQueueLength => _queue.Count;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal bool TryHandleFailedCommand(Message message)
@@ -31,6 +31,7 @@ namespace StackExchange.Redis
                 int count = _queue.Count;
                 if (_maxRetryQueueLength.HasValue && count >= _maxRetryQueueLength)
                 {
+                    // TODO: Log an error here when logging is supported
                     return false;
                 }
                 wasEmpty = count == 0;

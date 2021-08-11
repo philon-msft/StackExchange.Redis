@@ -1287,7 +1287,7 @@ namespace StackExchange.Redis
         /// <summary>
         /// returns the current length of the retry queue
         /// </summary>
-        public int RetryQueueLength => RetryQueueManager.RetryQueueLength;
+        public int CurrentRetryQueueLength => RetryQueueManager.CurrentQueueLength;
 
         private ConnectionMultiplexer(ConfigurationOptions configuration)
         {
